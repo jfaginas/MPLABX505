@@ -1,0 +1,220 @@
+MPASM 5.81                           LED.ASM   9-25-2018  18:53:12         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;-------------------------------------------------------------------------------
+Warning[215]: Processor superseded by command line.  Verify processor symbol.
+                      00002         LIST        p = P16F84A
+                      00003         INCLUDE     <p16F84.inc>
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ; Build date : Jul 23 2018
+                      00005 ;  MPASM PIC16F84 processor include
+                      00006 ; 
+                      00007 ;  (c) Copyright 1999-2018 Microchip Technology, All rights reserved
+                      00008 ;==========================================================================
+                      00009 
+Message[301]: MESSAGE: (Processor-header file mismatch.  Verify selected processor.)
+                      00207         LIST
+2007   3FF1           00004         __CONFIG    _XT_OSC & _PWRTE_ON & _WDT_OFF & _CP_OFF
+                      00005         ERRORLEVEL  -302
+                      00006 ;-------------------------------------------------------------------------------
+                      00007 #DEFINE bank0   bcf     STATUS,RP0
+                      00008 #DEFINE bank1   bsf     STATUS,RP0      
+                      00009 
+  00000007            00010 LED     EQU     7
+                      00011 ;-------------------------------------------------------------------------------        
+                      00012         CBLOCK      0X0C
+  0000000C            00013         d1
+  0000000D            00014         d2
+                      00015         ENDC
+                      00016         
+                      00017 ;-------------------------------------------------------------------------------        
+                      00018         ORG         0x000
+0000   0103           00019         clrw
+0001   2???           00020         goto        Main
+                      00021         
+                      00022         ORG         0x004
+0004   0009           00023         retfie
+                      00024 ;-------------------------------------------------------------------------------        
+0005                  00025 Main
+0005   1683           00026         bank1
+0006   0186           00027         clrf        TRISB
+0007   301F           00028         movlw       b'11111'
+0008   0085           00029         movwf       TRISA
+0009   1283           00030         bank0
+000A                  00031 Loop
+000A   1786           00032         bsf         PORTB,LED
+000B   2???           00033         call        delay_100ms
+000C   1386           00034         bcf         PORTB,LED
+000D   2???           00035         call        delay_50ms
+000E   2???           00036         goto        Loop
+                      00037         
+                      00038 ;-------------------------------------------------------------------------------        
+000F                  00039 delay_1ms
+000F   30FA           00040         movlw       .250
+0010   008C           00041         movwf       d1
+MPASM 5.81                           LED.ASM   9-25-2018  18:53:12         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0011   0000           00042         nop
+0012   0B8C           00043         decfsz      d1,F
+0013   2???           00044         goto        $-2
+0014   0008           00045         return
+                      00046         
+0015                  00047 delay_100ms
+0015   3064           00048         movlw       .100
+0016   008D           00049         movwf       d2
+0017   2???           00050         call        delay_1ms
+0018   0B8D           00051         decfsz      d2,F
+0019   2???           00052         goto        $-2
+001A   0008           00053         return
+001B                  00054 delay_50ms
+001B   3032           00055         movlw       .50
+001C   008D           00056         movwf       d2
+001D   2???           00057         call        delay_1ms
+001E   0B8D           00058         decfsz      d2,F
+001F   2???           00059         goto        $-2
+0020   0008           00060         return  
+                      00061 ;-- FIN ------------------------------------------------------------------------        
+3FF1                  00062         END
+MPASM 5.81                           LED.ASM   9-25-2018  18:53:12         PAGE  3
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+C                                 00000000
+DC                                00000001
+EEADR                             00000009
+EECON1                            00000088
+EECON2                            00000089
+EEDATA                            00000008
+EEIE                              00000006
+EEIF                              00000004
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+LED                               00000007
+Loop                              0000000A
+Main                              00000005
+NOT_PD                            00000003
+NOT_RBPU                          00000007
+NOT_TO                            00000004
+OPTION_REG                        00000081
+PCL                               00000002
+PCLATH                            0000000A
+PORTA                             00000005
+PORTB                             00000006
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+STATUS                            00000003
+T0CS                              00000005
+T0IE                              00000005
+MPASM 5.81                           LED.ASM   9-25-2018  18:53:12         PAGE  4
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+T0IF                              00000002
+T0SE                              00000004
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_.org_1_0013                      00000013
+_.org_1_0019                      00000019
+_.org_1_001F                      0000001F
+_CONFIG                           00002007
+_CP_OFF                           00003FFF
+_CP_ON                            0000000F
+_FOSC_EXTRC                       00003FFF
+_FOSC_HS                          00003FFE
+_FOSC_LP                          00003FFC
+_FOSC_XT                          00003FFD
+_HS_OSC                           00003FFE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_LP_OSC                           00003FFC
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FFD
+__16F84A                          00000001
+bank0                             bcf     STATUS,RP0
+bank1                             bsf     STATUS,RP0
+d1                                0000000C
+MPASM 5.81                           LED.ASM   9-25-2018  18:53:12         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+d2                                0000000D
+delay_100ms                       00000015
+delay_1ms                         0000000F
+delay_50ms                        0000001B
+
+Errors   :     0
+Warnings :     1 reported,     0 suppressed
+Messages :     1 reported,     2 suppressed
+
+
